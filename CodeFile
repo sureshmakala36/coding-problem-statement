@@ -1,0 +1,153 @@
+1.Difference between ‘this’ and ‘let’ and when to use what, explain with examples.
+this:
+Basically “this” key word is used to refer the current instance of the class , accessible only in non-static members of the class and differ if method arguments and class parameter names are same.
+Example: 
+using System;
+public class Employees
+{
+   public int Eid, Age;  
+   public string Name, Dept;
+   public Employees(int Eid, String Name, int Age, string Dept) {   
+	   this.Eid = Eid;   
+	   this. Name  = Name;   
+	   this.Dept = Dept;   
+	   this.Age = Age;
+   }  //Here we can import external interfaces class and helpers too
+   public   void Main()
+   {    //any logic here
+   }
+}
+let:
+Generally “let” key word we will use in LINQ, it’s used to initializes new variable in Linq Query and filter the data in query level.
+Example: If you want get the employee Name contains “s” and make lowercase.
+var EmpStartwithS = from emp in employee
+                     let EmpName = emp.employeename.Contains (“s”)
+                     where EmpName.toLower()
+                     select EmpName;
+
+Angular version 
+“this”:  
+<input type="button" value="AnyName" id="btnID"/>
+
+$("# btnID ").click(function() { 
+           var buttonName=   $(this).val();
+ }); 
+
+“let ”: In angular it is used to declare variables with in the scope, It’s similar to var 
+let array = [1,2,3];
+for (let i = 0; i < array.length; i++) {
+  console.log(array[i]);
+}
+2.Write a function which accepts an array of strings and returns a map of character to count of the character(including spaces and special characters).
+Eg: input: [‘hello world’, ‘hello world’]  output: {h: 2, e: 2, l: 6, ‘ ‘: 1, o: 4 …… }
+Ans: For this question, First I will take input from method and join the array data using string.join 
+            string[] input = new string[] { "hello world", "hello world" };
+            string code = string.Join("", input);
+            string answer = new String(code.Distinct().ToArray());
+            List<string> Output = new List<string>();
+            char[] charArr = answer.ToCharArray();
+            foreach (char ch in charArr)
+            {
+                int count = code.Count(f => f == ch);
+                Output.Add(ch.ToString() + ":" + count.ToString());
+            }
+            string[] _out = Output.ToArray();
+            string FinalOutput = string.Join(",", _out);
+output: h:2,e:2,l:6,o:4, :2,w:2,r:2,d:2
+3.Write a function to return all the keys present in an object at any level.
+Eg: input: {  a: 5, b: { c: { d: 10 } }}   output: [a, b, c, d]
+Example:
+var input ={  a: 5, b: { c: { d: 10 } }}
+var Output=[];
+function GetAllKeysFromObject(input, Output) {
+  Object.keys(input).forEach(function(key) {
+    Output.push(key);
+    Output = GetAllKeysFromObject (input [key], Output);
+  });
+  return Output;
+}
+var finalresult=GetAllKeysFromObject (object, Output);
+In c# we can use JObject and serialization and deserialization we can get keys from Object.
+public static Dictionary<string, string> GetAllKeysFromObject(JObject account, Dictionary<string, string> Outputter)
+        {
+            foreach (var item in account)
+            {
+                Outputter.Add(item.Key,item.Value.ToString());
+                if (item.Value.GetType().Name == "JObject")
+                {
+                    JObject jObj = JObject.FromObject(item.Value);
+                    GetAllKeysFromObject(jObj, Outputter);
+                }
+            }
+            return Outputter;
+        }
+public static void Main(string[] input)
+        {
+            string inputs = @"{ a: 5, b: { c: { d: 10 } } }";
+            JObject account = JsonConvert.DeserializeObject<JObject>(inputs);
+             
+            Dictionary<string, string> Outputter = new Dictionary<string, string>();
+            Outputter= GetAllKeysFromObject(account, Outputter);
+            List<string> FinalOutPut = new List<string>();
+            foreach (KeyValuePair<string, string> item in Outputter)
+            {
+                FinalOutPut.Add(item.Key);
+            }
+ 
+        }
+4.Write a function to reverse every word of a string.
+i. Using split and reverse:
+split and for loop
+            string stringInput = "stringInput";
+            char[] charArray = stringInput.ToCharArray();
+            string output =string.Empty;
+             for(int i = charArray.Length-1; i >= 0; --i)
+            {
+                output += charArray[i];
+            }
+            Console.WriteLine(output);
+	Pre define Reverse method
+            string stringInput = "stringInput";
+            char[] charArray = stringInput.ToCharArray();
+            Array.Reverse(charArray);
+            Console.WriteLine(charArray);
+
+ii. Without using split and reverse and in O(1) space (since strings are immutable, assume that the input is a character array).
+char[] arr = new char[5];
+            arr[0] = 'h';
+            arr[1] = 'a';
+            arr[2] = 'n';
+            arr[3] = 'k';
+            arr[4] = 's';
+             
+            string output =string.Empty;
+             for(int i = arr.Length-1; i >= 0; --i)
+            {
+                output += arr[i];
+            }
+            Console.WriteLine(output);
+
+5.Write a function to remove duplicate strings from an array of strings.
+Ans: Number of ways to remove duplicate from array of string 
+i. Contain 
+string[]  inputArray= { "alt", "ctrl", "delete", "enter", "esc", "shift", "delete", "shift", "alt" };
+            List<string> OutArray = new List<string>();
+            foreach (string item in inputArray)
+            {
+                if (!OutArray.Contains(item))
+                    OutArray.Add(item);
+            }
+ii. Linq Distinct method
+string[]  inputArray= { "alt", "ctrl", "delete", "enter", "esc", "shift", "delete", "shift", "alt" };
+var Output= inputArray.Distinct().ToArray<string>();
+
+Example:Client side
+Var inputArray= { "alt", "ctrl", "delete", "enter", "esc", "shift", "delete", "shift", "alt" };
+ var Output = [];
+    $.each(inputArray, function(i, e) {
+        if ($.inArray(e, Output) == -1) {
+Output.push(e);
+}
+    });
+    return Output;
+
